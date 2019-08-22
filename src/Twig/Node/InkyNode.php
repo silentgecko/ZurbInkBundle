@@ -20,7 +20,7 @@ class InkyNode extends Twig_Node
 {
     public function __construct(Twig_Node $body, $lineno = 0, $tag = 'inky')
     {
-        parent::__construct(array('body' => $body), array(), $lineno, $tag);
+        parent::__construct(['body' => $body], [], $lineno, $tag);
     }
 
     /**
@@ -35,9 +35,9 @@ class InkyNode extends Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('ob_start();' . PHP_EOL)
+            ->write('ob_start();'.PHP_EOL)
             ->subcompile($this->getNode('body'))
-            ->write('$contents = ob_get_clean();' . PHP_EOL)
-            ->write("echo \$this->env->getExtension('{$extensionName}')->convertInkyToHtml(\$contents);" . PHP_EOL);
+            ->write('$contents = ob_get_clean();'.PHP_EOL)
+            ->write("echo \$this->env->getExtension('{$extensionName}')->convertInkyToHtml(\$contents);".PHP_EOL);
     }
 }

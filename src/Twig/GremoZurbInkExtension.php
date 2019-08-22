@@ -23,7 +23,7 @@ class GremoZurbInkExtension extends \Twig_Extension
 
     private $htmlUtils;
     private $fileLocator;
-    private $inlineResources = array();
+    private $inlineResources = [];
 
     public function __construct(HtmlUtils $htmlUtils, FileLocatorInterface $fileLocator)
     {
@@ -36,10 +36,10 @@ class GremoZurbInkExtension extends \Twig_Extension
      */
     public function getTokenParsers()
     {
-        return array(
+        return [
             new InkyTokenParser(),
             new InlineCssTokenParser(),
-        );
+        ];
     }
 
     /**
@@ -47,9 +47,9 @@ class GremoZurbInkExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new Twig_SimpleFunction('zurb_ink_add_stylesheet', array($this, 'addStylesheet')),
-        );
+        return [
+            new Twig_SimpleFunction('zurb_ink_add_stylesheet', [$this, 'addStylesheet']),
+        ];
     }
 
     /**
@@ -74,7 +74,7 @@ class GremoZurbInkExtension extends \Twig_Extension
     public function removeStylesheet($resource = null)
     {
         if (null === $resource) {
-            $this->inlineResources = array();
+            $this->inlineResources = [];
 
             return;
         }
@@ -101,12 +101,20 @@ class GremoZurbInkExtension extends \Twig_Extension
     }
 
     /**
-     * @param string|array $resources
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return self::NAME;
+    }
+
+    /**
+     * @param array|string $resources
      * @return string
      */
     private function getContents($resources)
     {
-        $styles = array();
+        $styles = [];
         foreach ((array) $resources as $key => $resource) {
             // Resource key already in the cache of inlined resources, avoid locating it
             if (isset($this->inlineResources[$key])) {
@@ -119,13 +127,5 @@ class GremoZurbInkExtension extends \Twig_Extension
         }
 
         return implode(PHP_EOL, $styles);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 }

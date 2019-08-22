@@ -23,7 +23,7 @@ class InkyTokenParser extends \Twig_TokenParser
     {
         $lineno = $token->getLine();
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
-        $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+        $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 
         return new InkyNode($body, $lineno, $this->getTag());

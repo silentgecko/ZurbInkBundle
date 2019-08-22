@@ -25,7 +25,7 @@ class HtmlUtils
 
     /**
      * @param string $html
-     * @param string|array $css
+     * @param array|string $css
      * @return string
      */
     public function inlineCss($html, $css)

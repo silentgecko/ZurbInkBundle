@@ -20,7 +20,7 @@ class InlineCssNode extends Twig_Node
 {
     public function __construct(Twig_Node $html, $lineno = 0, $tag = 'inlinestyle')
     {
-        parent::__construct(array('html' => $html), array(), $lineno, $tag);
+        parent::__construct(['html' => $html], [], $lineno, $tag);
     }
 
     /**
@@ -35,12 +35,12 @@ class InlineCssNode extends Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write("ob_start();". PHP_EOL)
+            ->write('ob_start();'.PHP_EOL)
             ->subcompile($this->getNode('html'))
-            ->write("\$html = ob_get_clean();" . PHP_EOL)
-            ->write("\$extension = \$this->env->getExtension('{$extensionName}');" . PHP_EOL)
-            ->write("echo \$extension->inlineCss(\$html);" . PHP_EOL)
-            ->write("\$extension->removeStylesheet();" . PHP_EOL)
+            ->write('$html = ob_get_clean();'.PHP_EOL)
+            ->write("\$extension = \$this->env->getExtension('{$extensionName}');".PHP_EOL)
+            ->write('echo $extension->inlineCss($html);'.PHP_EOL)
+            ->write('$extension->removeStylesheet();'.PHP_EOL)
         ;
     }
 }

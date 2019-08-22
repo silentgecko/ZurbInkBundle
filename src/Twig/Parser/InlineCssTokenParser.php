@@ -26,7 +26,7 @@ class InlineCssTokenParser extends Twig_TokenParser
         $stream = $parser->getStream();
 
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
-        $html = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+        $html = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
 
         return new InlineCssNode($html, $token->getLine(), $this->getTag());
@@ -46,6 +46,6 @@ class InlineCssTokenParser extends Twig_TokenParser
      */
     public function getTag()
     {
-        return "inlinestyle";
+        return 'inlinestyle';
     }
 }
