@@ -12,13 +12,16 @@
 namespace Gremo\ZurbInkBundle\Twig\Node;
 
 use Gremo\ZurbInkBundle\Twig\GremoZurbInkExtension;
+use Twig\Compiler;
+use Twig\Environment;
+use Twig\Node\Node;
 use Twig_Compiler;
 use Twig_Environment;
 use Twig_Node;
 
-class InlineCssNode extends Twig_Node
+class InlineCssNode extends Node
 {
-    public function __construct(Twig_Node $html, $lineno = 0, $tag = 'inlinestyle')
+    public function __construct(Node $html, $lineno = 0, $tag = 'inlinestyle')
     {
         parent::__construct(['html' => $html], [], $lineno, $tag);
     }
@@ -26,9 +29,9 @@ class InlineCssNode extends Twig_Node
     /**
      * {@inheritdoc}
      */
-    public function compile(Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
-        $extensionName = (version_compare(Twig_Environment::VERSION, '1.26.0') >= 0)
+        $extensionName = (version_compare(Environment::VERSION, '1.26.0') >= 0)
             ? 'Gremo\ZurbInkBundle\Twig\GremoZurbInkExtension'
             : GremoZurbInkExtension::NAME
         ;

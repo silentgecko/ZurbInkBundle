@@ -12,7 +12,7 @@
             <tag name="twig.extension" />
             <argument type="service" id="gremo_zurb_ink.util.html_utils" />
             <argument type="service" id="file_locator" />
-            <argument>%kernel.root_dir%</argument>
+            <argument>%kernel.project_dir%</argument>
         </service>
     </services>
 </container>
