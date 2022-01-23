@@ -28,32 +28,20 @@ class HtmlUtils
      * @param array|string $css
      * @return string
      */
-    public function inlineCss($html, $css)
+    public function inlineCss(string $html, $css): string
     {
         if (is_array($css)) {
             $css = implode(PHP_EOL, $css);
         }
 
-        if (method_exists($this->cssToInlineStyles, 'setHTML')) {
-            $this->cssToInlineStyles->setHTML($html);
-            $this->cssToInlineStyles->setCSS($css);
-
-            $contents = $this->cssToInlineStyles->convert();
-
-            // Reset CSS (in order to clean the parsed CSS rules)
-            $this->cssToInlineStyles->setCSS(null);
-        } else {
-            $contents = $this->cssToInlineStyles->convert($html, $css);
-        }
-
-        return $contents;
+        return $this->cssToInlineStyles->convert($html, $css);
     }
 
     /**
      * @param string $content
      * @return string
      */
-    public function parseInky($content)
+    public function parseInky(string $content): string
     {
         return Pinky\transformString($content)->saveHTML();
     }

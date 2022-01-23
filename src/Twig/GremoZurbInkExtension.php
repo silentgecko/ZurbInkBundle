@@ -15,14 +15,12 @@ use Gremo\ZurbInkBundle\Twig\Parser\InkyTokenParser;
 use Gremo\ZurbInkBundle\Twig\Parser\InlineCssTokenParser;
 use Gremo\ZurbInkBundle\Util\HtmlUtils;
 use Symfony\Component\Config\FileLocatorInterface;
-use Symfony\Component\HttpKernel\Kernel;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Twig_SimpleFunction;
 
 class GremoZurbInkExtension extends AbstractExtension
 {
-    const NAME = 'gremo_zub_ink';
+    const NAME = 'gremo_zurb_ink';
 
     private $htmlUtils;
     private $fileLocator;
@@ -39,7 +37,7 @@ class GremoZurbInkExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getTokenParsers()
+    public function getTokenParsers(): array
     {
         return [
             new InkyTokenParser(),
@@ -50,7 +48,7 @@ class GremoZurbInkExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('zurb_ink_add_stylesheet', [$this, 'addStylesheet']),
@@ -62,7 +60,7 @@ class GremoZurbInkExtension extends AbstractExtension
      * @param bool $alsoOutput
      * @return null|string
      */
-    public function addStylesheet($resource, $alsoOutput = false)
+    public function addStylesheet(string $resource, bool $alsoOutput = false): ?string
     {
         if (!isset($this->inlineResources[$resource])) {
             $this->inlineResources[$resource] = $this->getAbsolutePath($resource);
@@ -71,12 +69,14 @@ class GremoZurbInkExtension extends AbstractExtension
         if ($alsoOutput) {
             return $this->getContents($resource);
         }
+
+        return null;
     }
 
     /**
-     * @param null|string $resource
+     * @param string|null $resource
      */
-    public function removeStylesheet($resource = null)
+    public function removeStylesheet(string $resource = null)
     {
         if (null === $resource) {
             $this->inlineResources = [];
@@ -91,7 +91,7 @@ class GremoZurbInkExtension extends AbstractExtension
      * @param string $html
      * @return string
      */
-    public function inlineCss($html)
+    public function inlineCss(string $html): string
     {
         return $this->htmlUtils->inlineCss($html, $this->getContents($this->inlineResources));
     }
@@ -100,15 +100,12 @@ class GremoZurbInkExtension extends AbstractExtension
      * @param string $contents
      * @return string
      */
-    public function convertInkyToHtml($contents)
+    public function convertInkyToHtml(string $contents): string
     {
         return $this->htmlUtils->parseInky($contents);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return self::NAME;
     }
@@ -117,7 +114,7 @@ class GremoZurbInkExtension extends AbstractExtension
      * @param array|string $resources
      * @return string
      */
-    private function getContents($resources)
+    private function getContents($resources): string
     {
         $styles = [];
         foreach ((array) $resources as $key => $resource) {
@@ -138,24 +135,11 @@ class GremoZurbInkExtension extends AbstractExtension
      * @param string $resource
      * @return string
      */
-    private function getAbsolutePath($resource)
+    private function getAbsolutePath(string $resource): string
     {
         // It seems that there is no way in Symfony 4 to get the absolute path to a given file in the "assets" folder.
         // So we first try the file locator (which, in the first place, will handle all resources starting with "@").
-        // The service will also look in the right folders for Symfony 2/3, but will fail for Symfony 4 with its new
-        // directory structure (fail in the sense that it doesn't look into the "assets" folder).
-        try {
-            return $this->fileLocator->locate($resource);
-        } catch (\Exception $exception) {
-            // Only for Symfony 4, try also the "assets" folder (this will not work for customs "assets" folder)
-            if (version_compare(Kernel::VERSION, 4, '>=')) {
-                $assetsDir = realpath(rtrim($this->rootDir, '\\/').'/assets');
-                if ($assetsDir) {
-                    return $this->fileLocator->locate($resource, $assetsDir);
-                }
-            }
-
-            throw $exception;
-        }
+        $assetsDir = realpath(rtrim($this->rootDir, '\\/').'/assets');
+        return $this->fileLocator->locate($resource, $assetsDir);
     }
 }

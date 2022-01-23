@@ -13,11 +13,7 @@ namespace Gremo\ZurbInkBundle\Twig\Node;
 
 use Gremo\ZurbInkBundle\Twig\GremoZurbInkExtension;
 use Twig\Compiler;
-use Twig\Environment;
 use Twig\Node\Node;
-use Twig_Compiler;
-use Twig_Environment;
-use Twig_Node;
 
 class InkyNode extends Node
 {
@@ -31,11 +27,7 @@ class InkyNode extends Node
      */
     public function compile(Compiler $compiler)
     {
-        $extensionName = (version_compare(Environment::VERSION, '1.26.0') >= 0)
-            ? 'Gremo\ZurbInkBundle\Twig\GremoZurbInkExtension'
-            : GremoZurbInkExtension::NAME
-        ;
-
+        $extensionName = GremoZurbInkExtension::class;
         $compiler
             ->addDebugInfo($this)
             ->write('ob_start();'.PHP_EOL)

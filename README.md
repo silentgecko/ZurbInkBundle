@@ -19,20 +19,18 @@ Install the bundle via Composer:
 composer require gremo/zurb-ink-bundle
 ```
 
-Then enable the bundle in the kernel:
+Then enable the bundle in the config/bundles.php:
 
 ```php
 <?php
-// app/AppKernel.php
+// config/bundles.php
 
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new Gremo\ZurbInkBundle\GremoZurbInkBundle(),
-        // ...
-    );
-}
+return [
+    // ...
+    Gremo\ZurbInkBundle\GremoZurbInkBundle::class => ['all' => true],
+    // ...
+];
+
 ```
 
 ## Usage

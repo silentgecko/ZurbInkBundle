@@ -12,16 +12,16 @@
 namespace Gremo\ZurbInkBundle\Twig\Parser;
 
 use Gremo\ZurbInkBundle\Twig\Node\InkyNode;
+use Twig\Node\Node;
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
-use Twig_Token;
 
 class InkyTokenParser extends AbstractTokenParser
 {
     /**
      * {@inheritdoc}
      */
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $lineno = $token->getLine();
         $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
@@ -32,10 +32,10 @@ class InkyTokenParser extends AbstractTokenParser
     }
 
     /**
-     * @param Twig_Token $token
+     * @param Token $token
      * @return bool
      */
-    public function decideBlockEnd(Token $token)
+    public function decideBlockEnd(Token $token): bool
     {
         return $token->test('endinky');
     }
@@ -43,7 +43,7 @@ class InkyTokenParser extends AbstractTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'inky';
     }

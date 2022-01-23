@@ -12,17 +12,16 @@
 namespace Gremo\ZurbInkBundle\Twig\Parser;
 
 use Gremo\ZurbInkBundle\Twig\Node\InlineCssNode;
+use Twig\Node\Node;
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
-use Twig_Token;
-use Twig_TokenParser;
 
 class InlineCssTokenParser extends AbstractTokenParser
 {
     /**
      * {@inheritdoc}
      */
-    public function parse(Token $token)
+    public function parse(Token $token): Node
     {
         $parser = $this->parser;
         $stream = $parser->getStream();
@@ -38,7 +37,7 @@ class InlineCssTokenParser extends AbstractTokenParser
      * @param Token $token
      * @return bool
      */
-    public function decideBlockEnd(Token $token)
+    public function decideBlockEnd(Token $token): bool
     {
         return $token->test('endinlinestyle');
     }
@@ -46,7 +45,7 @@ class InlineCssTokenParser extends AbstractTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'inlinestyle';
     }
