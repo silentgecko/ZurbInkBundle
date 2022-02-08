@@ -9,6 +9,7 @@ Do you have a good idea and want to **contribute**? Let's do it! Feel free to op
 
 ## Upgrade
 
+- Last tag supporting Symfony 2 and 3 is [4.0.1](https://github.com/gremo/ZurbInkBundle/blob/v4.0.1/README.md). After that, this project only support Symfony 4 and 5.
 - Latest tag of the original project is [2.2.6](https://github.com/gremo/ZurbInkBundle/blob/2.2.6/README.md). You can use this release only changing your Composer requirements.
 - Latest `2.x` tag of my fork is [2.3.0](https://github.com/gremo/ZurbInkBundle/blob/v2.3.0/README.md) and contains some bug fixes. You can use this release changing your Composer requirements and bundle name in the kernel.
 
